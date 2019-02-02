@@ -12,7 +12,7 @@
 | package written by Hadley Wickham and Romain Francois that provides a consistent and concise
 | grammar for manipulating tabular data.
 
-...
+
 
   |==                                                                                         |   2%
 
@@ -21,7 +21,7 @@
 | In this lesson, we'll focus on data frames, but everything you learn will apply equally to other
 | formats.
 
-...
+
 
   |===                                                                                        |   3%
 
@@ -31,24 +31,12 @@
 | publicly available (http://cran-logs.rstudio.com/). We'll be working with the log from July 8,
 | 2014, which contains information on roughly 225,000 package downloads.
 
-...
 
   |=====                                                                                      |   5%
 
 | I've created a variable called path2csv, which contains the full file path to the dataset. Call
 | read.csv() with two arguments, path2csv and stringsAsFactors = FALSE, and save the result in a new
 | variable called mydf. Check ?read.csv if you need help.
-
-> mydf = read.csv("path2csv", stringsAsFactors = FALSE)
-Error in file(file, "rt") : cannot open the connection
-In addition: Warning message:
-In file(file, "rt") :
-  cannot open file 'path2csv': No such file or directory
-> mydf = read.csv(path2csv, stringsAsFactors = FALSE)
-
-| Try again. Getting it right on the first try is boring anyway! Or, type info() for more options.
-
-| Store the result of read.csv(path2csv, stringsAsFactors = FALSE) in a new variable called mydf.
 
 > mydf <- read.csv(path2csv, stringsAsFactors = FALSE)
 
@@ -103,7 +91,7 @@ In file(file, "rt") :
 | If your dplyr version is not at least 0.4.0, then you should hit the Esc key now, reinstall dplyr,
 | then resume this lesson where you left off.
 
-...
+
 
   |==============                                                                             |  15%
 
@@ -131,7 +119,7 @@ In file(file, "rt") :
 | Let's see what is meant by this. Type cran to print our tbl_df to the console.
 
 > cran
-# A tibble: 225,468 x 11
+ A tibble: 225,468 x 11
        X       date     time    size r_version r_arch      r_os      package version country ip_id
    <int>      <chr>    <chr>   <int>     <chr>  <chr>     <chr>        <chr>   <chr>   <chr> <int>
  1     1 2014-07-08 00:54:41   80589     3.1.0 x86_64   mingw32    htmltools   0.2.4      US     1
@@ -144,7 +132,7 @@ In file(file, "rt") :
  8     8 2014-07-08 00:47:30   28216     3.0.2 x86_64 linux-gnu      whisker   0.3-2      US     5
  9     9 2014-07-08 00:54:58    5928      <NA>   <NA>      <NA>         Rcpp  0.10.4      CN     6
 10    10 2014-07-08 00:15:35 2206029     3.0.2 x86_64 linux-gnu     hflights     0.1      US     7
-# ... with 225,458 more rows
+ ... with 225,458 more rows
 
 | Nice work!
 
@@ -153,7 +141,7 @@ In file(file, "rt") :
 | This output is much more informative and compact than what we would get if we printed the original
 | data frame (mydf) to the console.
 
-...
+
 
   |====================                                                                       |  22%
 
@@ -162,7 +150,7 @@ In file(file, "rt") :
 | of data and only as many columns as fit neatly in our console. At the bottom, we see the names and
 | classes for any variables that didn't fit on our screen.
 
-...
+
 
   |=====================                                                                      |  23%
 
@@ -194,7 +182,7 @@ In file(file, "rt") :
 | country variables from the cran dataset.
 
 > select(cran, ip_id, package, country)
-# A tibble: 225,468 x 3
+ A tibble: 225,468 x 3
    ip_id      package country
    <int>        <chr>   <chr>
  1     1    htmltools      US
@@ -224,7 +212,7 @@ In file(file, "rt") :
 | Also, note that the columns are returned to us in the order we specified, even though ip_id is the
 | rightmost column in the original dataset.
 
-...
+
 
   |==============================                                                             |  33%
 
@@ -243,7 +231,7 @@ In file(file, "rt") :
 | columns starting from r_arch and ending with country.
 
 > select(cran, r_arch:country)
-# A tibble: 225,468 x 5
+ A tibble: 225,468 x 5
    r_arch      r_os      package version country
     <chr>     <chr>        <chr>   <chr>   <chr>
  1 x86_64   mingw32    htmltools   0.2.4      US
@@ -264,10 +252,9 @@ In file(file, "rt") :
 
 | We can also select the same columns in reverse order. Give it a try.
 
-> select(cran, desc(r_arch:country))
-Error in desc(r_arch:country) : object 'r_arch' not found
+
 > select(cran, country:r_arch)
-# A tibble: 225,468 x 5
+ A tibble: 225,468 x 5
    country version      package      r_os r_arch
      <chr>   <chr>        <chr>     <chr>  <chr>
  1      US   0.2.4    htmltools   mingw32 x86_64
@@ -290,7 +277,7 @@ Error in desc(r_arch:country) : object 'r_arch' not found
 | anytime during the lesson.
 
 > cran
-# A tibble: 225,468 x 11
+ A tibble: 225,468 x 11
        X       date     time    size r_version r_arch      r_os      package version country ip_id
    <int>      <chr>    <chr>   <int>     <chr>  <chr>     <chr>        <chr>   <chr>   <chr> <int>
  1     1 2014-07-08 00:54:41   80589     3.1.0 x86_64   mingw32    htmltools   0.2.4      US     1
@@ -313,7 +300,7 @@ Error in desc(r_arch:country) : object 'r_arch' not found
 | throw away. To see how this works, do select(cran, -time) to omit the time column.
 
 > select(cran, -time)
-# A tibble: 225,468 x 10
+ A tibble: 225,468 x 10
        X       date    size r_version r_arch      r_os      package version country ip_id
    <int>      <chr>   <int>     <chr>  <chr>     <chr>        <chr>   <chr>   <chr> <int>
  1     1 2014-07-08   80589     3.1.0 x86_64   mingw32    htmltools   0.2.4      US     1
@@ -358,7 +345,7 @@ Error in desc(r_arch:country) : object 'r_arch' not found
 | Use this knowledge to omit all columns X:size using select().
 
 > select(cran, -(X:size))
-# A tibble: 225,468 x 7
+ A tibble: 225,468 x 7
    r_version r_arch      r_os      package version country ip_id
        <chr>  <chr>     <chr>        <chr>   <chr>   <chr> <int>
  1     3.1.0 x86_64   mingw32    htmltools   0.2.4      US     1
